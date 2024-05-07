@@ -127,8 +127,8 @@ class CLIPSeg:
         # Predict the segemntation mask
         with torch.no_grad():
             outputs = model(**input_prc)
-        
-        tensor = torch.sigmoid(outputs[0]) # get the mask
+        preds = outputs.logits.unsqueeze(1)
+        tensor = torch.sigmoid(preds[0][0]) # get the mask
         
         # Apply a threshold to the original tensor to cut off low values
         thresh = threshold
